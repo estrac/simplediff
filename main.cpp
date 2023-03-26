@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include "flags.h"
+#include <flags.h>
 
 // The structure, apporoach, and a few snippets of code in this utilty were
 // inspired by and taken from 'imgcmp' (https://github.com/yahiaetman/imgcmp)
