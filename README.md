@@ -10,11 +10,11 @@ The contents of the files are read into `std::stringstream objects`, which are t
 
 ## Usage
 
-    simplediff path_to_file1 path_to_file2 [-v, -verbose] [-h, -help]
+    simplediff path_to_file1 path_to_file2 [-v, --verbose] [-h, --help]
 
-    [-v, -verbose] is an optional parameter that causes a message
+    [-v, --verbose] is an optional parameter that causes a message
                    to be displayed that reports the comparison results.
-    [-h, -help]    is an optional parameter that displays this message.
+    [-h, --help]    is an optional parameter that displays this message.
 
 
 ## Building on Ubuntu
