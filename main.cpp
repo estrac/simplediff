@@ -5,8 +5,8 @@
 #include <string_view>
 #include <flags.h>
 
-// The structure, apporoach, and a few snippets of code in this utilty were
-// inspired by and taken from 'imgcmp' (https://github.com/yahiaetman/imgcmp)
+// The structure, apporoach, and flag-handling code for this project were
+// inspired by and taken from [imgcmp](https://github.com/yahiaetman/imgcmp)
 
 int main(int argc, char** argv) {
 
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     while (inFile1.get(c)) {
        file1Stream << c;
     }
-    //std::cout << "File 1 contents:" << std::endl << file1Stream.str();
+    //Debug: std::cout << "File 1 contents:" << std::endl << file1Stream.str();
 
     std::ifstream inFile2(path2.value(), std::ios::in);
     if (!inFile2) {
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
     while (inFile2.get(c)) {
        file2Stream << c;
     }
-    //std::cout << "File 2 contents:" << std::endl << file2Stream.str();
+    //Debug: std::cout << "File 2 contents:" << std::endl << file2Stream.str();
 
     if (file1Stream.str() == file2Stream.str()) {
         if (verbose) {
