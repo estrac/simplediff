@@ -12,3 +12,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(flags)
 add_executable(simplediff main.cpp)
 target_link_libraries(simplediff PRIVATE flags)
+
+file (COPY tests DESTINATION .)

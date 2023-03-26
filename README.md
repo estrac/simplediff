@@ -17,21 +17,22 @@ The contents of the files are read into `std::stringstream objects`, which are t
     [-h, -help]    is an optional parameter that displays this message.
 
 
-## Building
+## Building on Ubuntu
 
     git clone https://github.dom/estrac/simplediff
-    mkdir sdiffRelease
-    cd sdiffRelease
+    mkdir sdiff_release
+    cd sdiff_release
     cmake -DCMAKE_BUILD_TYPE=Release ../simplediff
+    cmake --build .
 
 
 ## Tests/Examples
 
 After building, manually running the tests (which also serve as examples) from the `tests` directory in Ubuntu should yield the following results:
 
-    ../bin/simplediff test1.txt test2.txt --verbose -> `Files are the same`
-    ../bin/simplediff test1.txt test3.txt --verbose -> `Files are different`
-    ../bin/simplediff test1.txt test4.txt --verbose -> `Files are different`
+    ../bin/simplediff test1.txt test2.txt --verbose *-> Files are the same*
+    ../bin/simplediff test1.txt test3.txt --verbose *-> Files are different*
+    ../bin/simplediff test1.txt test4.txt --verbose *-> Files are different*
 
 
 ## Credits
