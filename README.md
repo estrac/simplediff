@@ -19,7 +19,7 @@ The contents of the files are read into `std::stringstream objects`, which are t
 
 ## Building on Ubuntu
 
-    git clone https://github.dom/estrac/simplediff
+    git clone --recurse-submodules https://github.dom/estrac/simplediff
     mkdir sdiff_release
     cd sdiff_release
     cmake -DCMAKE_BUILD_TYPE=Release ../simplediff
