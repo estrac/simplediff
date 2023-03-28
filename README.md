@@ -24,7 +24,7 @@ The contents of the files are read into `std::stringstream objects`, which are t
     git clone --recurse-submodules https://github.dom/estrac/simplediff
     mkdir sdiff_release
     cd sdiff_release
-    cmake -DCMAKE_BUILD_TYPE=Release ../simplediff
+    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SIMPLEDIFF_TESTS=ON ../simplediff
     cmake --build .
 
 

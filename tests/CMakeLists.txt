@@ -1,15 +1,19 @@
 file (COPY . DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 add_test(NAME test1
-         COMMAND ${PROJECT_BINARY_DIR}/bin/simplediff test_base.txt test1.txt -v
+         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff test_base.txt test1.txt -v
          )
+
 add_test(NAME test2
-         COMMAND ${PROJECT_BINARY_DIR}/bin/simplediff test_base.txt test2.txt -v
+         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff test_base.txt test2.txt -v
          )
 set_property(TEST test2 PROPERTY WILL_FAIL TRUE)
+
 add_test(NAME test3
-         COMMAND ${PROJECT_BINARY_DIR}/bin/simplediff test_base.txt test3.txt -v
+         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff test_base.txt test3.txt -v
          )
 set_property(TEST test3 PROPERTY WILL_FAIL TRUE)
+
 if (MSVC)
     # Create target to run tests from Visual Studio
     add_custom_target(Tests

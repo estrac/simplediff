@@ -16,5 +16,8 @@ add_executable(simplediff main.cpp)
 target_link_libraries(simplediff PRIVATE flags)
 
 # Add tests ====================================================================
-enable_testing()
-add_subdirectory(tests)
+option(BUILD_SIMPLEDIFF_TESTS "Enable Testing for simplediff" OFF)
+if (BUILD_SIMPLEDIFF_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
