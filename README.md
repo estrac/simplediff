@@ -34,9 +34,9 @@ The contents of the files are read into `std::stringstream objects`, which are t
 
 The tests also serve as examples. Manually run them from the `tests` directory and expect the following results:
 
-   `../bin/simplediff test_base.txt test1.txt --verbose` *-> Files are the same*  
-   `../bin/simplediff test_base.txt test2.txt --verbose` *-> Files are different*  
-   `../bin/simplediff test_base.txt test3.txt --verbose` *-> Files are different*
+`../bin/simplediff test_base.txt test1.txt --verbose` *-> Files are the same*  
+`../bin/simplediff test_base.txt test2.txt --verbose` *-> Files are different*  
+`../bin/simplediff test_base.txt test3.txt --verbose` *-> Files are different*
 
 
 ## Credits
