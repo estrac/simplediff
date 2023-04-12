@@ -37,7 +37,9 @@ The tests also serve as examples. Manually run them from the `tests` directory a
 `../bin/simplediff test_base.txt test1.txt --verbose` *-> Files are the same*  
 `../bin/simplediff test_base.txt test2.txt --verbose` *-> Files are different*  
 `../bin/simplediff test_base.txt test3.txt --verbose` *-> Files are different*
-
+`../bin/simplediff digits_base.txt digits1.txt --verbose` *-> Files same*  
+`../bin/simplediff digits_base.txt digits2.txt --verbose` *-> Files different*  
+`../bin/simplediff digits_base.txt digits3.txt --verbose` *-> Files different*
 
 ## Credits
 
