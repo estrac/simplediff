@@ -10,7 +10,6 @@
 // inspired by and taken from [imgcmp](https://github.com/yahiaetman/imgcmp)
 
 int main(int argc, char** argv) {
-    bool debug = false;
 
     std::stringstream HELP;
     HELP 
@@ -67,9 +66,6 @@ int main(int argc, char** argv) {
     while (inFile1.get(c1)) {
        file1Stream << c1;
     }
-    if (debug) {
-        std::cout << "File 1 contents:" << std::endl << file1Stream.str();
-    }
 
     std::ifstream inFile2(path2.value(), std::ios::in);
     if (!inFile2) {
@@ -81,9 +77,6 @@ int main(int argc, char** argv) {
     while (inFile2.get(c2)) {
        file2Stream << c2;
     }
-    if (debug) {
-        std::cout << "File 2 contents:" << std::endl << file2Stream.str();
-    }
 
     long numSameNonDigits = 0;
     long numDiffNonDigits = 0;
@@ -92,12 +85,6 @@ int main(int argc, char** argv) {
     while (file1Stream.get(c1)) {
         if (file2Stream.get(c2)) {
             // file2 is treated as the reference file (hence used for isdigit())
-            if (debug) {
-                std::cout << "Read characters: "
-                          << c1 << " (" << static_cast<int>(c1) << ")  "
-                          << c2 << " (" << static_cast<int>(c2) << ")"
-                          << std::endl;
-            }
             if (c1 == c2) {
                 if (isdigit(c2)) {
                     numSameDigits++;
@@ -105,13 +92,6 @@ int main(int argc, char** argv) {
                     numSameNonDigits++;
                 }
             } else {
-                if (debug) {
-                    std::cout << "Different characters: "
-                              << c1 << " (" << static_cast<int>(c1) << ")"
-                              << " != "
-                              << c2 << " (" << static_cast<int>(c2) << ")"
-                              << std::endl;
-                }
                 if (isdigit(c2)) {
                     numDiffDigits++;
                 } else {
@@ -120,10 +100,6 @@ int main(int argc, char** argv) {
             }
         } else {
             // If file1 is longer than file2, then add add to number of diffs
-            if (debug) {
-                std::cout << "File #1 is longer than File #2 with character: "
-                      << c1 << " (" << static_cast<int>(c1) << ")" << std::endl;
-            }
             if (isdigit(c1)) {
                 numDiffDigits++;
             } else {
@@ -133,10 +109,6 @@ int main(int argc, char** argv) {
     }
     while (file2Stream.get(c2)) {
         // If file2 is longer than file1, then add add to number of diffs
-        if (debug) {
-            std::cout << "File #2 is longer than File #1 with character: "
-                  << c2 << " (" << static_cast<int>(c2) << ")" << std::endl;
-        }
         if (isdigit(c2)) {
             numDiffDigits++;
         } else {
