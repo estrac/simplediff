@@ -21,12 +21,11 @@ add_test(NAME test4
          )
 
 add_test(NAME test5
-         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff digits_base.txt digits2.txt -v
+         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff digits_base.txt digits2.txt -v -d 4% -a 2%
          )
-set_property(TEST test5 PROPERTY WILL_FAIL TRUE)
 
 add_test(NAME test6
-         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff digits_base.txt digits3.txt -v
+         COMMAND ${CMAKE_BINARY_DIR}/bin/simplediff digits_base.txt digits3.txt -v -d 1 -a 1
          )
 set_property(TEST test6 PROPERTY WILL_FAIL TRUE)
 

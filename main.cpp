@@ -21,10 +21,19 @@ int main(int argc, char** argv) {
     << "dependent utilities can provide more information).\n"
     << "\n"
     << "Usage:\n"
-    << "simplediff path_to_file1 path_to_file2 [-v, -verbose] [-h, -help]\n"
+    << "simplediff file1 file2 [-v, --verbose] [-d digits[%]] [-a alpha[%]]\n"
+    << "                       [-h, --help]\n"
     << "\n"
     << "[-v, --verbose] is an optional parameter that causes a message\n"
-    << "               to be displayed that reports the comparison results.\n"
+    << "                to be displayed that reports the comparison results.\n"
+    << "[-d digits[%]]  is an optional parameter that sets the number of\n"
+    << "                digits allowed to be different, or, if `%` is added,\n"
+    << "                then the percent of digits allowed to be different.\n"
+    << "                `digits` is a number. Default: 0.\n"
+    << "[-a alpha[%]]   is an optional parameter that sets the number of\n"
+    << "                alpha characters allowed to be different, or, if `%`\n"
+    << "                is added, then the percent of alpha characters allowed\n"
+    << "                to be different. `digits` is a number. Default: 0.\n"
     << "[-h, --help]    is an optional parameter that displays this message.";
 
     flags::args args(argc, argv);
@@ -134,35 +143,78 @@ int main(int argc, char** argv) {
             numDiffNonDigits++;
         }
     }
-    // TODO: pass digitThreshold and nonDigitThreshold as parameters
-    float digitThreshold = 0.0;
-    float nonDigitThreshold = 0.0;
+
+    // Digit calculations =======================================================
 
     long totalDigits = numSameDigits + numDiffDigits;
-    long totalNonDigits = numSameNonDigits + numDiffNonDigits;
     float percentDiffDigits = 0.f;
-    float percentDiffNonDigits = 0.f;
-    if (totalDigits > 0) {
-        percentDiffDigits = 100.f * static_cast<float>(numDiffDigits)
-                                        / static_cast<float>(totalDigits);
-        if (verbose) {
-            std::cout << "Error for digits: " << percentDiffDigits
-                      << "% (threshold: " << digitThreshold
-                      << "%, Number of digits: " << totalDigits << ")"
-                      << std::endl;
+    int digitThreshold = 0;
+    float digitThresholdPercent = 0.f;
+    bool useDigitPercentThreshold = false;
+
+    if (auto option = args.get<std::string>("d"); option.has_value()) {
+        auto& str = *option;
+        if(str[str.size()-1] == '%') {
+            digitThresholdPercent = atof(str.c_str());
+            digitThreshold = static_cast<int>(totalDigits
+                             * (digitThresholdPercent) / 100.f);
+            useDigitPercentThreshold = true;
+        } else {
+            digitThreshold = atoi(str.c_str());
+            digitThresholdPercent = 100.f * digitThreshold / totalDigits;
+            useDigitPercentThreshold = false;
         }
     }
-    percentDiffNonDigits = 100.f * static_cast<float>(numDiffNonDigits)
-                                       / static_cast<float>(totalNonDigits);
+    if (totalDigits > 0) {
+        percentDiffDigits = 100.f * static_cast<float>(numDiffDigits)
+                            / static_cast<float>(totalDigits);
+    }
     if (verbose) {
-        std::cout << "Error for non-digits: " << percentDiffNonDigits
-                  << "% (threshold: " << nonDigitThreshold
-                  << "%, Number of non-digits: " << totalNonDigits << ")"
-                  << std::endl;
+        std::cout << "Different digits: " << numDiffDigits << " = "
+        << percentDiffDigits << "% (threshold: "
+        << (useDigitPercentThreshold ? digitThresholdPercent : digitThreshold)
+        << (useDigitPercentThreshold ? "%"  : "")
+        << ", Total digits: " << totalDigits << ")" << std::endl;
     }
 
-    if (percentDiffDigits <= digitThreshold
-            && percentDiffNonDigits <= nonDigitThreshold) {
+    // Non-Digit calculations ===================================================
+
+    long totalNonDigits = numSameNonDigits + numDiffNonDigits;
+    float percentDiffNonDigits = 0.f;
+    int nonDigitThreshold = 0;
+    float nonDigitThresholdPercent = 0.f;
+    bool useNonDigitPercentThreshold = false;
+
+    if (auto option = args.get<std::string>("a"); option.has_value()) {
+        auto& str = *option;
+        if(str[str.size()-1] == '%') {
+            nonDigitThresholdPercent = atof(str.c_str());
+            nonDigitThreshold = static_cast<int>(totalNonDigits
+                                * (nonDigitThresholdPercent) / 100.f);
+            useNonDigitPercentThreshold = true;
+        } else {
+            nonDigitThreshold = atoi(str.c_str());
+            nonDigitThresholdPercent = 100.f * nonDigitThreshold / totalNonDigits;
+            useNonDigitPercentThreshold = false;
+        }
+    }
+    if (totalNonDigits > 0) {
+        percentDiffNonDigits = 100.f * static_cast<float>(numDiffNonDigits)
+                               / static_cast<float>(totalNonDigits);
+    }
+    if (verbose) {
+        std::cout << "Different non-digits: " << numDiffNonDigits << " = "
+        << percentDiffNonDigits << "% (threshold: "
+        << (useNonDigitPercentThreshold
+                                 ? nonDigitThresholdPercent : nonDigitThreshold)
+        << (useNonDigitPercentThreshold ? "%"  : "")
+        << ", Total non-digits: " << totalNonDigits << ")" << std::endl;
+    }
+
+    // Final pass/fail determinaton and report ==================================
+
+    if (numDiffDigits <= digitThreshold
+                      && numDiffNonDigits <= nonDigitThreshold) {
         if (verbose) {
             std::cout << "Files are the same within specified thresholds"
                       << std::endl;
